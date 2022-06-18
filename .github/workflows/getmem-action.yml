@@ -1,0 +1,26 @@
+name: Edu moon Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+    - 'getmem/**'
+#   pull_request:
+#     branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - run: cd getmem && docker build -t moonedu/getmem .
+    - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      env: 
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    - run: docker push moonedu/getmem
+#     - name: Build the Docker image
+#       run: docker build . --file Dockerfile --tag moonedu/getmem:$(date +%s)
