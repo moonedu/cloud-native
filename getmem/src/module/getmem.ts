@@ -8,7 +8,6 @@ const meminfo = {
   cpu: os.cpus(),
 };
 router.get('/api/getmem', (req: Request, res: Response) => {
-  console.log(meminfo);
   res.send({meminfo});
 });
 
