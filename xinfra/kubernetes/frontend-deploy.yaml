@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend-container
+          image: moonedu/frontend
+          env:
+            - name: REACT_APP_GETMEM_URL
+              value: 'http://www.moonedu-skaffold.com/api/getmem'
+            - name: REACT_APP_NODECHECK_URL
+              value: 'http://www.moonedu-skaffold.com/api/nodecheck'
+            - name: REACT_APP_SAYSERVICE_URL
+              value: 'http://www.moonedu-skaffold.com/api/sayservice'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-srv
+spec:
+  selector:
+    app: frontend
+  ports:
+    - name: frontend
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

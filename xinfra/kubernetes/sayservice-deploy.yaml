@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sayservice-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sayservice
+  template:
+    metadata:
+      labels:
+        app: sayservice
+    spec:
+      containers:
+      - name: sayservice-container
+        image: moonedu/sayservice
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sayservice-srv
+spec:
+  selector:
+    app: sayservice
+  ports:
+  - name: sayservice
+    protocol: TCP
+    port: 3003
+    targetPort: 3003
